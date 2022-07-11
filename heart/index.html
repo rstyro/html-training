@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="rstyro-胖不了小陆">
+    <title>跳动的心</title>
+
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            background: black;
+            color: #fff;
+        }
+
+        .main{
+            display: flex;
+            flex-direction: row;
+            padding-top: 230px;
+            justify-content: space-around;
+        }
+
+        .heart {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            animation-name: shake;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        .heart div {
+            /* border: 1px solid #0094ff; */
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: pink;
+            animation-name: shadow;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        .topLeft,
+        .topRight {
+            border-radius: 50% 50% 0 0;
+            z-index: 99;
+        }
+
+        .topLeft {
+            transform: translate(-50px, 0) rotate(-45deg);
+        }
+
+        .topRight {
+            transform: translate(50px, 0) rotate(45deg);
+        }
+
+        .bottom {
+            transform: translate(0, 64px) rotate(45deg) scale(.9, .9);
+        }
+
+        /* 定义动画 */
+
+        @keyframes shake {
+            from {
+                transform: scale(.9, .9);
+            }
+            to {
+                transform: scale(1.1, 1.1);
+            }
+        }
+
+        @keyframes shadow {
+            from {
+            }
+            to {
+                box-shadow: 0px 0px 50px pink;
+            }
+        }
+
+        .heart-box{
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+        .content {
+            color: pink;
+            margin-right: 50px;
+            width: 700px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main">
+        <div class="heart-box">
+            <div class="heart">
+                <div class='topLeft'></div>
+                <div class='topRight'></div>
+                <div class='bottom'></div>
+            </div>
+        </div>
+
+        <div class="content" id="content">
+            <p>😘😘😘</p>
+            <br/>
+            <p>They tell you in school that it's the lungs that keep you breathing,but it's your heart.</p>
+            <br/>
+            <p>You had me at hello.</p>
+            <br/>
+            <p>Like is the choice, love is only you.</p>
+            <br/>
+            <p>You are my today and all of my tomorrows.</p>
+            <br/>
+            <p>There is never a time or place for true love. It happens accidentally, in a heartbeat, in a single flashing, throbbing moment.</p>
+            <br/>
+            <p>And it's as if I never really even knew love until right now,in this moment, with you.</p>
+        </div>
+    </div>
+
+    <script>
+
+        window.onload=function (){
+            Element.prototype.typeWrite=function (speed){
+                let me = this;
+                let meHtml = me.innerHTML;
+                let index=0;
+                me.style.setProperty("display","block","important");
+                let task = setInterval(function (){
+                    let f = meHtml.substr(index,1);
+                    if(f == "<"){
+                        index = meHtml.indexOf(">",index);
+                    }else {
+                        index++;
+                    }
+                    me.innerHTML=meHtml.substring(0,index)+(index & 1?"_":"");
+                    if(index>=meHtml.length){
+                        clearInterval(task);
+                    }
+                },speed);
+                return this;
+            }
+
+            document.getElementById("content").typeWrite(50);
+        }
+    </script>
+
+</div>
+</body>
+</html>
