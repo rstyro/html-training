@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="rstyro-胖不了小陆">
+    <title>卡牌特效</title>
+    <style>
+        *, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            background: #95e1d3;
+        }
+
+        .main {
+            width: 1300px;
+            margin: 0px auto;
+            padding-top: 100px;
+        }
+
+        .card-box {
+            width: 200px;
+            height: 350px;
+            position: relative;
+        }
+
+        .card-box:hover {
+            transform: scale(1.1, 1.1);
+            transition: all 0.3s;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            transition: all 1s;
+            box-shadow: 0px 20px 20px -15px #111;
+        }
+
+        .front {
+            background: #eaffd0;
+
+        }
+
+        .back {
+            background: #fce38a;
+        }
+
+        .btn {
+            width: 200px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            background: #f38181;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .question {
+            text-align: center;
+            height: 45px;
+            line-height: 45px;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .card-list {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 100px;
+        }
+
+        .content {
+            text-align: center;
+            height: 100%;
+            margin: 0 auto;
+            writing-mode: vertical-lr;
+            letter-spacing: 10px;
+            font-size: 20px;
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="main">
+        <div class="btn" @click="shuffleCard">洗牌</div>
+        <div class="question">今晚翻哪位爱妃的牌子</div>
+        <div class="card-list">
+            <div v-for="(item ,index) in list" class="card-box" @click="openCard(index)">
+                <div class="front card" :style="{ transform: 'rotateY('+item.frontRotate+'deg)' }">
+                    <div style="margin: 60% auto;text-align: center" v-text="'卡 牌 '+(index+1)">卡牌1</div>
+                </div>
+                <div class="back card" :style="{ transform: 'rotateY('+item.backRotate+'deg)' }">
+                    <div class="content">{{item.content}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+    window.onload = function () {
+        let vue = new Vue({
+            el: '#app',
+            data: {
+                frontRotate: 0,
+                backRotate: 180,
+                list: [
+                    {
+                        frontRotate: 0,
+                        backRotate: 180,
+                        content: "大乔",
+                    },
+                    {
+                        frontRotate: 0,
+                        backRotate: 180,
+                        content: "小乔",
+                    }
+                    , {
+                        frontRotate: 0,
+                        backRotate: 180,
+                        content: "西施",
+                    }, {
+                        frontRotate: 0,
+                        backRotate: 180,
+                        content: "貂蝉",
+                    }, {
+                        frontRotate: 0,
+                        backRotate: 180,
+                        content: "妲己",
+                    }, {
+                        frontRotate: 0,
+                        backRotate: 180,
+                        content: "闭月",
+                    }
+                ]
+            },
+            methods: {
+                openCard: function (index) {
+                    let _that = this.list[index];
+                    if (_that.frontRotate == 0) {
+                        _that.frontRotate = 180;
+                        _that.backRotate = 0;
+                    } else {
+                        _that.frontRotate = 0;
+                        _that.backRotate = 180;
+                    }
+                },
+                shuffleCard: function () {
+                    resetRotate(this.list);
+                    let that = this;
+                    setTimeout(function (){
+                        that.list = shuffle(that.list);
+                    },200);
+                }
+            }
+        })
+    }
+
+    function resetRotate(arr){
+        let len = arr.length;
+        while (len--){
+            arr[len].frontRotate=0;
+            arr[len].backRotate=180;
+        }
+    }
+
+    function shuffle(arr){
+        let len = arr.length;
+        while (len--){
+            let randomIndex = Math.floor(Math.random()*len);
+            // 解构赋值
+            [arr[len],arr[randomIndex]] =  [arr[randomIndex],arr[len]]
+        }
+        return arr;
+    }
+</script>
+</body>
+</html>
