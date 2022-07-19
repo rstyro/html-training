@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>罗盘时钟</title>
+    <style>
+        *, body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            background: black url("luoli.jpg") no-repeat center;
+            background-size:  100% auto ;
+            /* 防止子类 margin 击穿父级元素*/
+            position: absolute;
+
+        }
+
+        .main {
+            width: 900px;
+            height: 900px;
+            margin: 20px auto;
+            position: relative;
+            color: #ddd;
+            /*background: black;*/
+            font-size: 18px;
+            overflow: hidden;
+        }
+
+        .time_black {
+            position: absolute;
+            width: 80px;
+            height: 20px;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            margin-left: -40px;
+            margin-top: -10px;
+        }
+        .month
+        ,.date
+        ,.week
+        ,.oldHours
+        ,.minute
+        ,.second
+        ,.hours{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: all 1s;
+        }
+        .active{
+            /*color: #E9FD00;*/
+            color: #fff;
+            font-weight: bold;
+        }
+        .hand{
+            width: 430px;
+            height: 2px;
+            background: #fff;
+            position: absolute;
+            transition: all 1s;
+            transform: translate(452px,465px);
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="main">
+        <div class="year time_black active">2022年</div>
+        <div class="month" v-bind:style="{transform:'rotate('+monthRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of monthList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="date" v-bind:style="{transform:'rotate('+dateRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of dateList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="week" v-bind:style="{transform:'rotate('+weekRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of weekList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="oldHours" v-bind:style="{transform:'rotate('+oldHoursRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of oldHoursList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="hours" v-bind:style="{transform:'rotate('+hoursRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of hoursList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="minute" v-bind:style="{transform:'rotate('+minuteRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of minuteList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="second" v-bind:style="{transform:'rotate('+secondRotate+'deg)'}">
+            <div class="time_black"  v-for="(e,index) of secondList" v-text="e.content"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">1月</div>
+        </div>
+        <div class="hand"></div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+    window.onload = function () {
+        let vue = new Vue({
+            el: '#app',
+            data: {
+                year:"2022年",
+                monthList:[
+                    {
+                        content:"一月"
+                    },
+                    {
+                        content:"二月"
+                    },
+                    {
+                        content:"三月"
+                    },
+                    {
+                        content:"四月"
+                    },
+                    {
+                        content:"五月"
+                    },
+                    {
+                        content:"六月"
+                    },
+                    {
+                        content:"七月"
+                    },
+                    {
+                        content:"八月"
+                    },
+                    {
+                        content:"九月"
+                    },
+                    {
+                        content:"十月"
+                    },
+                    {
+                        content:"十一月"
+                    },
+                    {
+                        content:"十二月"
+                    }
+                ],
+                dateList:[],
+                weekList:[
+                    {
+                        content:"星期日"
+                    },
+                    {
+                        content:"星期一"
+                    },
+                    {
+                        content:"星期二"
+                    },
+                    {
+                        content:"星期三"
+                    },
+                    {
+                        content:"星期四"
+                    },
+                    {
+                        content:"星期五"
+                    },
+                    {
+                        content:"星期六"
+                    }
+
+                ],
+                oldHoursList:[
+                    {
+                        content:"子时"
+                    },
+                    {
+                        content:"丑时"
+                    },
+                    {
+                        content:"寅时"
+                    },
+                    {
+                        content:"卯时"
+                    },
+                    {
+                        content:"辰时"
+                    },
+                    {
+                        content:"巳时"
+                    },
+                    {
+                        content:"巳时"
+                    },
+                    {
+                        content:"未时"
+                    },
+                    {
+                        content:"申时"
+                    },
+                    {
+                        content:"酉时"
+                    },
+                    {
+                        content:"戌时"
+                    },
+                    {
+                        content:"亥时"
+                    }
+
+                ],
+                hoursList:[],
+                minuteList:[],
+                secondList:[],
+                monthRotate:0,
+                dateRotate:0,
+                weekRotate:0,
+                oldHoursRotate:0,
+                hoursRotate:0,
+                minuteRotate:0,
+                secondRotate:0,
+            },
+            created: function (){
+               this.initClock();
+               this.start();
+            },
+            methods: {
+                initClock: function () {
+                    // 初始化月份
+                    this.initLocation(this.monthList,30,80);
+
+                    // 初始化 日期，获取当月的最大天数
+                    for (let i = 1; i <= 31; i++) {
+                        this.dateList.push({
+                            content: i+" 日",
+                        })
+                    }
+                    this.initLocation(this.dateList,360/31,140);
+
+                    // 初始化 星期
+                    this.initLocation(this.weekList,360/7,210);
+                    // 古代时辰
+                    this.initLocation(this.oldHoursList,360/12,270);
+                    // 现代小时
+                    for (let i = 1; i <= 24; i++) {
+                        this.hoursList.push({
+                            content: i+" 时",
+                        })
+                    }
+                    this.initLocation(this.hoursList,360/24,320);
+
+                    // 分钟
+                    for (let i = 1; i <= 60; i++) {
+                        this.minuteList.push({
+                            content: i+" 分",
+                        })
+                    }
+                    this.initLocation(this.minuteList,6,370);
+
+                    // 秒
+                    for (let i = 60; i > 0; i--) {
+                        this.secondList.push({
+                            content: i+" 秒",
+                        })
+                    }
+                    this.initLocation(this.secondList,6,420);
+
+                },
+                // 初始化位置
+                initLocation:function (arr,deg,r){
+                    for (let i = 0; i < arr.length; i++) {
+                        let rotateDeg = i * deg;
+                        let translateX = Math.cos(rotateDeg * (Math.PI / 180))*r;
+                        let translateY = Math.sin(rotateDeg * (Math.PI / 180))*r;
+                        arr[i].translateX=translateX;
+                        arr[i].translateY=translateY;
+                        arr[i].rotate=rotateDeg;
+                        arr[i].active=false;
+                    }
+                },
+                rotateClock:function (){
+                    let nowDate = new Date();
+                    //当前年份
+                    this.year = nowDate.getFullYear();
+                    // 赋值月
+                    let month = nowDate.getMonth();
+                    let date = nowDate.getDate();
+                    let week = nowDate.getDay();
+                    let hours = nowDate.getHours();
+                    let minutes = nowDate.getMinutes();
+                    let seconds = nowDate.getSeconds();
+
+                    // 角度定位
+                    this.monthRotate= month * -30;
+                    this.dateRotate= (date-1) * -360/31;
+                    this.weekRotate= week * -360/7;
+                    this.oldHoursRotate= (hours%12) * -360/12;
+                    this.hoursRotate= (hours-1) * -360/24;
+                    this.minuteRotate= (minutes-1) * -6;
+                    this.secondRotate= seconds * 6;
+
+                    // 样式高亮
+                    this.monthList[month].active=true;
+                    this.dateList[date-1].active=true;
+                    this.weekList[week].active=true;
+                    this.oldHoursList[hours%12].active=true;
+                    this.hoursList[hours-1].active=true;
+
+                    if(minutes == 0){
+                        minutes=60;
+                    }
+                    this.minuteList[minutes-1<0?0:minutes-2].active=false;
+                    this.minuteList[minutes-1<0?0:minutes-1].active=true;
+                    if(seconds == 0){
+                        seconds=60;
+                    }
+                    this.secondList[this.secondList.length-seconds+1==60?0:this.secondList.length-seconds+1].active=false;
+                    this.secondList[this.secondList.length-seconds].active=true;
+                },
+                start:function (){
+                    let task;
+                    clearInterval(task);
+                    let _this=this;
+                    task = setInterval(function () {
+                        _this.rotateClock();
+                    }, 1000);
+                }
+
+            }
+        })
+    }
+
+</script>
+</body>
+</html>
