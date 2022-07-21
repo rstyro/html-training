@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>美女刮刮乐</title>
+    <style>
+        *,body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .container{
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            color: #fff;
+            position: absolute;
+        }
+        .main{
+            width: 1000px;
+            height: 800px;
+            margin: 50px auto;
+            position: relative;
+        }
+        .canvas{
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main">
+        <canvas class="canvas" id="back" width="994" height="703"></canvas>
+        <canvas class="canvas" id="front" width="994" height="703"></canvas>
+    </div>
+</div>
+
+<script>
+    window.onload=function (){
+        let backCanvas = document.getElementById("back");
+        let frontCanvas = document.getElementById("front");
+        let backCtx = backCanvas.getContext("2d");
+        let frontCtx = frontCanvas.getContext("2d");
+
+        // 背面，也就是中奖的哪一面
+        let img = new Image();
+        let w=994;
+        let h=703;
+        img.onload = function(){
+            const imgW = img.width;
+            const imgH = img.height;
+            // 宽度100% 高度自适应
+            backCtx.drawImage(img, 0, 0,w,imgH*w/imgW)
+        }
+        // 设置图片源地址
+        img.src = './girl.png';
+
+        // 外面，也就是可以刮的那一面
+        frontCtx.fillStyle = "rgb(47,47,50)";
+        frontCtx.fillRect(0,0,w,h);
+        frontCtx.font = "normal 80px 宋体";
+        frontCtx.strokeStyle = "rgb(241,21,160)";
+        frontCtx.strokeText("刮一刮，乐一乐！",200,350);
+
+        // 监听canvas的onmousedown事件
+        frontCanvas.onmousedown = function(ev){
+            frontCanvas.onmousemove = function(e){
+                let w = 50;			// 清除区域的宽度
+                let h = 50;			// 清除区域的高度
+                // 获取canvas的x,y 位置
+                let x = e.layerX||e.offsetX;
+                let y = e.layerY||e.offsetY;
+                frontCtx.clearRect(x,y,w,h);
+            }
+        }
+        frontCanvas.onmouseup = function(ev){
+            // 取消onmousemove事件
+            frontCanvas.onmousemove = null;
+        }
+    }
+</script>
+</body>
+</html>
