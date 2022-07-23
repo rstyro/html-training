@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="rstyro-胖不了小陆">
+    <title>好看的背景特效</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" width="2560" height="1285"></canvas>
+<script>
+    let canvas = document.getElementById('canvas'),
+        ctx = canvas.getContext('2d'),
+        points = [],
+        count = 88,
+        size = 2,
+        delta = 3,
+        distance = 168;
+        window.requestAnimFrame = (function () {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame
+            || window.mozRequestAnimationFrame || window.oRequestAnimationFrame
+            || window.msRequestAnimationFrame || function (callback) {
+                window.setTimeout(callback, 1000 / 60)
+            }
+    })();
+
+    function checkDistance(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
+    }
+
+    // 获取rgb的颜色值
+    function setColor() {
+        return 'rgb(' + getRandomStyleNum() + ',' + getRandomStyleNum()+ ',' + getRandomStyleNum() + ')'
+    }
+
+    //获取0-255的随机数
+    function getRandomStyleNum(){
+        return Math.round(255 * Math.random());
+    }
+
+    // 点 的属性
+    function Point(x, y, dx, dy, color) {
+        this.x = x;
+        this.y = y;
+        this.dx = dx;
+        this.dy = dy;
+        this.color = color
+    }
+
+    function initPoint(x, y) {
+        var x = x || canvas.width * Math.random(),
+            y = y || canvas.height * Math.random(),
+            dx = -delta / 2 + delta * Math.random(),
+            dy = -delta / 2 + delta * Math.random(),
+            color = setColor();
+        points.push(new Point(x, y, dx, dy, color))
+    }
+
+    function drawPoint(point) {
+        ctx.fillStyle = point.color;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, size, 0, 2 * Math.PI);
+        ctx.fill()
+    }
+
+    function drawLines(point, index) {
+        for (let i = 0; i < index; i++) {
+            //勾股定理 直角三角形公式，能形成三角形就显示 线
+            let opacity = 1 - checkDistance(point.x, point.y, points[i].x, points[i].y) / distance;
+            if (opacity > 0) {
+                let grad = ctx.createLinearGradient(point.x, point.y, points[i].x, points[i].y);
+                grad.addColorStop(0, point.color);
+                grad.addColorStop(1, points[i].color);
+                ctx.strokeStyle = grad;
+                ctx.globalAlpha = opacity;
+                ctx.beginPath();
+                ctx.moveTo(point.x, point.y);
+                ctx.lineTo(points[i].x, points[i].y);
+                ctx.stroke();
+                ctx.globalAlpha = 1
+            }
+        }
+    }
+
+    function updatePosition() {
+        for (let i = 0; i < points.length; i++) {
+            let xDx = points[i].x + points[i].dx,
+                yDy = points[i].y + points[i].dy;
+            if (xDx - size < 0 || xDx + size > canvas.width) {
+                points[i].dx = -points[i].dx
+            }
+            if (yDy - size < 0 || yDy + size > canvas.height) {
+                points[i].dy = -points[i].dy
+            }
+            points[i].x += points[i].dx;
+            points[i].y += points[i].dy;
+            drawPoint(points[i]);
+            drawLines(points[i], i)
+        }
+    }
+
+    function init() {
+        points.length = 0;
+        for (let i = 0; i < count; i++) {
+            initPoint()
+        }
+    }
+
+    function resize() {
+        init()
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        updatePosition();
+        window.requestAnimFrame(draw)
+    }
+
+    window.addEventListener("resize", resize);
+    canvas.addEventListener("mouseup",
+        function (e) {
+            initPoint(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop)
+        });
+    resize();
+    draw();
+
+</script>
+</body>
+</html>
