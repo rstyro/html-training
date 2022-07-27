@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表白：你是首选也是唯一</title>
+    <style>
+        *,body{
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            background: #000;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .text {
+            text-align: center;
+            position: absolute;
+            z-index: 99;
+            color: #e32929;
+            top: 50%;
+            /*left: calc((100% - 230px)/2);*/
+            left: 50%;
+            width: 350px;
+            height: 200px;
+            margin-top: -75px;
+            margin-left: -175px;
+            font-weight: 600;
+            letter-spacing: 5px;
+            word-spacing: 10px;
+            transition: all 1s;
+        }
+        .line{
+            width: 100%;
+            text-align: center;
+            padding-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #f60374;
+        }
+        .line .en{
+           font-size: 12px;
+        }
+
+        #say{
+            display: none;
+        }
+        #switch{
+           margin-top: 50px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        #switch:hover{
+            color: #f60374;
+            transition: all 1s;
+            transform: scale(1.8,1.8);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="text">
+        <div id="say">
+            <div class="line"><p>你永远是我的唯一选择</p><p class="en">You’re my first choice.</p></div>
+            <div class="line"><p>我会选择你</p><p class="en">I choose you</p></div>
+            <div class="line"><p>一次一次又一次</p><p class="en">I'll choose you over and over and over</p></div>
+            <div class="line"><p>没有怀疑，不曾怀疑</p><p class="en">without pause，without that.</p></div>
+        </div>
+        <div id="switch">宝，点我🎁有惊喜</div>
+    </div>
+
+    <canvas id="heart"></canvas>
+    <audio src="bgm.mp3" id="bgm"></audio>
+</div>
+
+<script src="heart.js"></script>
+<script>
+    window.onload=function (){
+
+        Element.prototype.typeWrite=function (speed){
+            let me = this;
+            let meHtml = me.innerHTML;
+            let index=0;
+            me.style.setProperty("display","block","important");
+            let task = setInterval(function (){
+                let f = meHtml.substr(index,1);
+                if(f == "<"){
+                    index = meHtml.indexOf(">",index);
+                }else {
+                    index++;
+                }
+                me.innerHTML=meHtml.substring(0,index)+(index & 1?"_":"");
+                if(index>=meHtml.length){
+                    clearInterval(task);
+                }
+            },speed);
+            return this;
+        }
+
+
+        let switchEl = document.getElementById('switch');
+        switchEl.onclick=function (e){
+            let bgm = document.getElementById("bgm");
+            bgm.play();
+            switchEl.style.setProperty("display","none","important");
+            if(!bgm.paused){
+                setTimeout(()=>{
+                    let say = document.getElementById('say');
+                    say.typeWrite(35);
+                },100)
+            }
+            let canvas = document.getElementById('heart');
+            let heart = new Heart(canvas);
+            heart.init();
+        }
+    }
+</script>
+</body>
+</html>
