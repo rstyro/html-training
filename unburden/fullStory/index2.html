@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宝，爱你哟😘</title>
+    <style>
+        * ,body{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background: #222831;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script src="init.js"></script>
+<script src="fullLove.js"></script>
+<script>
+    window.onload=function (){
+        let canvas = document.getElementById("canvas");
+        let sayLove = new SayLove(1,canvas,["I Love You","我爱你","🐖","♥"],100);
+        sayLove.init();
+    }
+</script>
+</body>
+</html>
