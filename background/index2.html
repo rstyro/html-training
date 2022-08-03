@@ -10,10 +10,25 @@
             overflow: hidden;
             background: #000;
         }
+
+        .content{
+            margin-top: 200px;
+            text-align: center;
+            color: #fff;
+            position: absolute;
+            top: 10px;
+            left: 35%;
+            font-size: 48px;
+        }
     </style>
 </head>
 <body>
 <canvas id="canvas" width="2560" height="1285"></canvas>
+<div class="content">
+    <h1>第一次直播，熟悉一下界面</h1>
+    <h1>不讲话，抱歉了</h1>
+    <h1>想学习编程的，可以关注我</h1>
+</div>
 <script>
     let canvas = document.getElementById('canvas'),
         ctx = canvas.getContext('2d'),
