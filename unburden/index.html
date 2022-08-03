@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宝,你真好看</title>
+    <style>
+        *, body {
+            padding: 0px;
+            margin: 0px;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            background: #ffe;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <canvas id="canvas"></canvas>
+</div>
+<script src="fullStory/fullLove.js"></script>
+<script>
+    window.onload = function () {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        //将坐标系移动到canvas的中心
+        ctx.translate(canvas.width / 2, canvas.height / 2 - 50);
+
+        // 心形坐标点
+        function getPointList(size) {
+            let pointArr = [];
+            let t = 0;
+            // 每次增长多少弧度
+            let vt = 0.02;
+            // 最大弧度
+            let maxT = 2 * Math.PI;
+            // 根据增长弧度得循环次数
+            let maxi = Math.ceil(maxT / vt);
+            for (let i = 0; i <= maxi; i++) {
+                // x=16 * (sin(t)) ^ 3;
+                // let x = 16 * Math.pow(Math.sin(t), 3);
+                // // y=13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t)
+                // let y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+
+                let x=2*Math.sin(t)+Math.sin(2*t);
+                let y=2*Math.cos(t)+Math.cos(2*t);
+
+                t += vt;
+                pointArr.push({x: x * size, y: y * size});
+            }
+            return pointArr;
+        }
+
+        // 图片数据
+        function getImages() {
+            let images = [];
+            for (let i = 1; i < 8; i++) {
+                let image = new Image(100, 100);
+                image.src = "./images/girl" + i + ".jpg";
+                images.push(image);
+            }
+            return images;
+        }
+
+        // 休眠
+        function sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
+        }
+
+        // 画
+        async function draw() {
+            // let arr = getPointList(150);
+            let heart = new Heart(25,0.2,1);
+            let arr = heart.getPoints();
+            let images = getImages();
+            for (let i = 0; i < arr.length; i++) {
+                await sleep(50).then(() => {
+                    // ctx.lineTo(arr[i].x,arr[i].y);
+                    // ctx.fillStyle='#f00';
+                    // ctx.strokeStyle='#f00';
+                    // ctx.stroke();
+                    // ctx.fill();
+
+                    let img = images[i % 7];
+                    ctx.drawImage(img, arr[i].x, arr[i].y, img.width, img.height);
+
+                    // let img = Heart.getImage();
+                    // ctx.drawImage(img, arr[i].x, arr[i].y, img.width, img.height);
+
+                });
+            }
+
+            // 写一句话吧
+            ctx.save();
+            ctx.fillStyle='#fa0971';
+            ctx.strokeStyle='#ff006e';
+            ctx.font = "bold 66px 宋体";
+            ctx.globalCompositeOperation="xor"; //source-over  destination-over
+            ctx.fillText("宝,你真好看 ",-150, 60);
+            ctx.restore();
+        }
+        draw();
+
+        function onMyResize() {
+            this.canvas.width = this.canvas.clientWidth;
+            this.canvas.height = this.canvas.clientHeight;
+            ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+            ctx.translate(canvas.width / 2, canvas.height / 2 - 50);
+            draw();
+        }
+
+        window.addEventListener('resize', (()=>{
+            onMyResize();
+        }));
+    }
+</script>
+</body>
+</html>
