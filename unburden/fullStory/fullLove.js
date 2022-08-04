@@ -190,6 +190,7 @@ class Item {
         this.scale = Math.random() + 0.3;
         // 设置文字属性
         this.fillStyle = Commons.getRgba(this.opacity);
+        this.fillStyle2 = Commons.getRgba(this.opacity);
         this.fontSize = Commons.getFontsize();
         this.offsetPoint = this.getOffsetPoint();
         while (this.offsetPoint.x == 0 && this.offsetPoint.y == 0) {
@@ -225,7 +226,8 @@ class Item {
         }
         // 字体闪光
         if(settings.flash){
-            this.fillStyle=this.getColor();
+            // this.fillStyle=this.getColor();
+            [this.fillStyle,this.fillStyle2]=[this.fillStyle2,this.fillStyle];
         }
         ctx.restore();
     }
@@ -235,9 +237,9 @@ class Item {
         arr.push("#54d2d2");
         arr.push("#ffcb00");
         arr.push("#d3ea07");
-        arr.push("#072448");
+        arr.push("#4f7fbd");
         arr.push("#e51300");
-        arr.push("#0a36b3");
+        arr.push("#3b5eb6");
         arr.push("#ff06f1");
         arr.push("#08b3b3");
         arr.push("#0780de");

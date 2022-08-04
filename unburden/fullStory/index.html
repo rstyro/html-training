@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>宝，爱你哟😘</title>
+    <title>宝，七夕快乐</title>
     <style>
         * ,body{
             margin: 0;
@@ -28,24 +28,20 @@
         }
     </style>
 </head>
-<body>
+<body id="main">
 <canvas id="canvas"></canvas>
 <script src="fullLove.js"></script>
+<audio src="bmg.flac" id="bgm" loop="loop"></audio>
 <script>
     window.onload=function (){
         let canvas = document.getElementById("canvas");
         let settings={
-            num: 90,
+            num: 150,
             textList: [
-                "I Love You",
-                "我爱你",
-                "愛してます",
-                "Je vous aime",
-                "사랑해요",
-                "Я тебя люблю",
-                "喜欢你",
-                "七夕快乐",
-                "宝我想你了",
+                "免费",
+                "定制",
+                "有源码",
+                "欢迎",
             ],
             images: [],
             flash:false
@@ -58,6 +54,14 @@
         settings.images.push("https://rstyro.top/deerapi/show/template/20211129/fb695550b4b24014bdcd7d8628bf2ba0.jpg");
         let fullLove = new FullLove(canvas,settings);
         fullLove.init();
+
+        // 点击屏幕播放背景音乐
+        let main = document.getElementById('main');
+        main.onclick=function (e){
+            let bgm = document.getElementById("bgm");
+            bgm.volume=0.1;
+            bgm.play();
+        }
     }
 </script>
 </body>
