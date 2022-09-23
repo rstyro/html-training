@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="rstyro-胖不了小陆">
+    <title>头像合成</title>
+    <style>
+        .container {
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        .main {
+            width: 800px;
+            margin: 20px auto;
+            background-color: #b1bbac;
+            min-height: 800px;
+            padding: 20px;
+        }
+
+        .icons {
+            display: flex;
+            width: 100%;
+            overflow: auto;
+        }
+
+        .icons img {
+            display: block;
+            justify-content: space-around;
+            width: 100px;
+            height: 100%;
+            margin-right: 20px;
+        }
+
+        .main-body {
+
+        }
+        #canvas{
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="main">
+        <div class="icons">
+            <img v-for="icon of list" :src="icon" @click="selectIcon">
+        </div>
+        <div class="main-body">
+            <div @click="uploadAvatar">上传头像图片</div>
+            <input v-show="false" ref="fileRef" id="uploadFile" type="file" accept="image/*" @change="fileChange">
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<script>
+    window.onload = function () {
+        // 画布
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+        const size=300;
+        // ctx.width = size;
+        // ctx.height = size;
+        let vue = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    "./images/head0.png",
+                    "./images/head1.png",
+                    "./images/head2.png",
+                ],
+                icon:"./images/head0.png"
+            },
+            methods: {
+                uploadAvatar: function () {
+                    this.$refs.fileRef.dispatchEvent(new MouseEvent('click'));
+                },
+                selectIcon:function (){
+
+
+                    // ctx.clearRect(0, 0, size, size);
+                    let image = new Image;
+                    image.src = this.icon;
+                    image.onload = function() {
+                        const imgW = image.width;
+                        const imgH = image.height;
+                        // 宽度100% 高度自适应
+                        ctx.drawImage(image, 0, 0,size,imgH*size/imgW);
+                        console.log("????")
+                    }
+                    console.log("!!!!")
+                },
+                fileChange: function () {
+                }
+            }
+        })
+    }
+
+</script>
+</body>
+</html>
