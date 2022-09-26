@@ -9,94 +9,229 @@
         .container {
             width: 100%;
             height: 100vh;
-            overflow: auto;
+            overflow: hidden;
         }
 
         .main {
             width: 800px;
             margin: 20px auto;
-            background-color: #b1bbac;
+            background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+            /*background-image: linear-gradient(to top, #f77062 0%, #fe5196 100%);*/
             min-height: 800px;
-            padding: 20px;
+            padding-top: 20px;
+            position: relative;
+            text-align: center;
         }
 
         .icons {
-            display: flex;
             width: 100%;
+            height: 100px;
             overflow: auto;
+            display: flex;
+            justify-content: center;
         }
 
         .icons img {
-            display: block;
-            justify-content: space-around;
             width: 100px;
-            height: 100%;
-            margin-right: 20px;
+            display: inline-block;
+            margin-left: 20px;
         }
 
         .main-body {
-
+            clear: both;
+            text-align: center;
         }
-        #canvas{
+
+        .btn-box {
+            display: flex;
+            margin: 50px 0;
+            justify-content: space-evenly;
+        }
+
+        .btn-box .btn {
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #0a8ee7;
+            color: #fff;
+            padding: 0 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            color: #2af598;
+        }
+
+        /*滚动条样式*/
+        ::-webkit-scrollbar {
+            width: 0.25rem;
+            height: 0.25rem;
+            background-image: linear-gradient(135deg, #eee 0%, #ddd 72%, #ccc 100%);
+        }
+
+        /*定义滚动条滑块*/
+        ::-webkit-scrollbar-thumb {
+            background-color: #98dba1;
+        }
+
+        #canvas {
+            border: 1px dashed #2af598;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
 <div class="container" id="app">
     <div class="main">
+        <h2>国庆头像合成Demo</h2>
         <div class="icons">
-            <img v-for="icon of list" :src="icon" @click="selectIcon">
+            <img v-for="(icon,index) of list" :src="icon" @click="selectIcon(index)">
         </div>
         <div class="main-body">
-            <div @click="uploadAvatar">上传头像图片</div>
             <input v-show="false" ref="fileRef" id="uploadFile" type="file" accept="image/*" @change="fileChange">
-            <canvas id="canvas" width="500" height="500"></canvas>
+            <canvas id="canvas" ref="myCanvas" width="300" height="300"></canvas>
+            <div class="btn-box">
+                <div class="btn" @click="uploadAvatar">上传头像图片</div>
+                <div class="btn" @click="downloadPic">下载图片</div>
+            </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<!--<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
+<script src="../vue/vue.global.js"></script>
 <script>
-    window.onload = function () {
-        // 画布
-        let canvas = document.getElementById('canvas');
-        let ctx = canvas.getContext('2d');
-        const size=300;
-        // ctx.width = size;
-        // ctx.height = size;
-        let vue = new Vue({
-            el: '#app',
-            data: {
+    //将vue对象绑定到window对象
+    Object.assign(window, Vue);
+    const vue3Composition = {
+        setup() {
+            const {onMounted, toRefs, reactive} = Vue;
+
+            // 定义参数
+            const data = reactive({
+                fileRef: null,
+                myCanvas: null,
+                ctx: null,
+                size: 300,
                 list: [
-                    "./images/head0.png",
-                    "./images/head1.png",
-                    "./images/head2.png",
+                    "images/head0.png",
+                    "images/head1.png",
+                    "images/head2.png",
                 ],
-                icon:"./images/head0.png"
-            },
-            methods: {
-                uploadAvatar: function () {
-                    this.$refs.fileRef.dispatchEvent(new MouseEvent('click'));
-                },
-                selectIcon:function (){
+                icon: "images/head0.png"
+            });
 
+            // 文件上传
+            const uploadAvatar = () => {
+                data.fileRef.dispatchEvent(new MouseEvent('click'));
+            }
 
-                    // ctx.clearRect(0, 0, size, size);
-                    let image = new Image;
-                    image.src = this.icon;
-                    image.onload = function() {
+            // 选择边框
+            const selectIcon = (index) => {
+                data.icon = data.list[index];
+                fileChange();
+            }
+
+            // 渲染图片
+            const fileChange = () => {
+                // 当input有修改就重新合成图片
+                data.ctx.clearRect(0, 0, data.size, data.size);
+                // if (data.fileRef.files.length > 0) {
+                //     let avatarUrl = window.URL.createObjectURL(document.getElementById('uploadFile').files[0]);
+                //     loadImag(avatarUrl);
+                // } else {
+                //     loadImag("images/default.png");
+                // }
+                // loadImag(data.icon);
+
+                let avatarUrl = "images/default.png";
+                if (data.fileRef.files.length > 0) {
+                    avatarUrl = window.URL.createObjectURL(document.getElementById('uploadFile').files[0]);
+                }
+                loadImagAsync(avatarUrl)
+                    .then(() => {
+                        return loadImagAsync(data.icon);
+                    }).then(()=>{
+                    console.log("合成成功...")
+                })
+
+            }
+
+            // 画布加载图片
+            // const loadImag = (imageUrl) => {
+            //     let image = new Image;
+            //     // 解决跨域 Canvas 污染问题
+            //     image.setAttribute("crossOrigin", "anonymous");
+            //     image.onload = () => {
+            //         const imgW = image.width;
+            //         const imgH = image.height;
+            //         if (imgH > imgW) {
+            //             // 宽度100% 高度自适应
+            //             data.ctx.drawImage(image, 0, 0, data.size, imgH * data.size / imgW);
+            //         } else {
+            //             // 宽度自适应
+            //             data.ctx.drawImage(image, 0, 0, imgW * data.size / imgH, data.size);
+            //         }
+            //
+            //     }
+            //     image.src = imageUrl;
+            // }
+
+            // 异步画布加载图片
+            const loadImagAsync = (imageUrl) => {
+                let image = new Image;
+                // 解决跨域 Canvas 污染问题
+                image.setAttribute("crossOrigin", "anonymous");
+                image.src = imageUrl;
+                return new Promise((resolve, reject) => {
+                    image.onload = () => {
                         const imgW = image.width;
                         const imgH = image.height;
-                        // 宽度100% 高度自适应
-                        ctx.drawImage(image, 0, 0,size,imgH*size/imgW);
-                        console.log("????")
-                    }
-                    console.log("!!!!")
-                },
-                fileChange: function () {
-                }
+                        if (imgH > imgW) {
+                            // 宽度100% 高度自适应
+                            data.ctx.drawImage(image, 0, 0, data.size, imgH * data.size / imgW);
+                        } else {
+                            // 宽度自适应
+                            data.ctx.drawImage(image, 0, 0, imgW * data.size / imgH, data.size);
+                        }
+                        // next
+                        resolve();
+                    };
+                    image.onerror = () => {
+                        reject(new Error('Could not load image at ' + imageUrl));
+                    };
+
+                });
             }
-        })
+
+            // 图片下载
+            const downloadPic = () => {
+                //得到图片的base64编码数据
+                let url = data.myCanvas.toDataURL("image/png");
+                let a = document.createElement("a");
+                // 创建一个单击事件
+                let event = new MouseEvent("click");
+                a.download = "img";
+                a.href = url;
+                // 触发a的单击事件
+                a.dispatchEvent(event);
+            }
+
+            onMounted(() => {
+                data.ctx = data.myCanvas.getContext('2d');
+                fileChange();
+            })
+
+            return {
+                uploadAvatar,
+                selectIcon,
+                fileChange,
+                downloadPic,
+                ...toRefs(data)
+            }
+        }
     }
+    const app = createApp(vue3Composition).mount('#app');
 
 </script>
 </body>
