@@ -308,7 +308,7 @@
                     this.weekRotate= week * -360/7;
 
                     // (hour + 1) 是为了将 0 点对齐到子时
-                    let branchIndex = (hours + 1) / 2;
+                    let branchIndex = Math.floor((hours + 1) / 2);
                     if (branchIndex === 12) {
                         branchIndex = 0; // 23:00 - 01:00 对应子时
                     }
