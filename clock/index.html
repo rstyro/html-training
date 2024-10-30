@@ -202,7 +202,7 @@
                         content:"巳时"
                     },
                     {
-                        content:"巳时"
+                        content:"午时"
                     },
                     {
                         content:"未时"
@@ -321,7 +321,7 @@
                     this.monthList[month].active=true;
                     this.dateList[date-1].active=true;
                     this.weekList[week].active=true;
-                    this.oldHoursList[hours%12].active=true;
+                    this.oldHoursList[branchIndex%12].active=true;
                     this.hoursList[hours-1].active=true;
 
                     if(minutes == 0){
