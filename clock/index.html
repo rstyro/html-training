@@ -70,7 +70,7 @@
 <body>
 <div class="container" id="app">
     <div class="main">
-        <div class="year time_black active">2022年</div>
+        <div class="year time_black active">{{year}}年</div>
         <div class="month" v-bind:style="{transform:'rotate('+monthRotate+'deg)'}">
             <div class="time_black"  v-for="(e,index) of monthList" v-text="e.content"
                  :class="{'active': e.active}"
@@ -111,7 +111,8 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>-->
+<script src="../vue/vue2.js"></script>
 <script>
     window.onload = function () {
         let vue = new Vue({
@@ -305,7 +306,13 @@
                     this.monthRotate= month * -30;
                     this.dateRotate= (date-1) * -360/31;
                     this.weekRotate= week * -360/7;
-                    this.oldHoursRotate= (hours%12) * -360/12;
+
+                    // (hour + 1) 是为了将 0 点对齐到子时
+                    let branchIndex = (hours + 1) / 2;
+                    if (branchIndex === 12) {
+                        branchIndex = 0; // 23:00 - 01:00 对应子时
+                    }
+                    this.oldHoursRotate= (branchIndex%12) * -360/12;
                     this.hoursRotate= (hours-1) * -360/24;
                     this.minuteRotate= (minutes-1) * -6;
                     this.secondRotate= seconds * 6;
