@@ -12,22 +12,23 @@
         .container {
             width: 100%;
             height: 100vh;
-            background: black url("luoli.jpg") no-repeat center;
-            background-size:  100% auto ;
-            /* 防止子类 margin 击穿父级元素*/
-            position: absolute;
-
+            background: black url("earth.jpg") no-repeat center;
+            background-size: 100% auto;
+            position: relative; /* 使用相对定位，以便 .main 可以绝对定位 */
+            display: flex; /* 使用 Flexbox 布局 */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            box-sizing: border-box; /* 防止内边距和边框影响尺寸 */
         }
 
         .main {
             width: 900px;
             height: 900px;
-            margin: 20px auto;
-            position: relative;
             color: #ddd;
-            /*background: black;*/
             font-size: 18px;
             overflow: hidden;
+            margin: 0; /* 移除默认的上下 margin */
+            position: relative; /* 保持相对定位 */
         }
 
         .time_black {
@@ -108,7 +109,6 @@
         </div>
         <div class="hand"></div>
     </div>
-
 </div>
 
 <!--<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>-->
@@ -224,13 +224,13 @@
                 hoursList:[],
                 minuteList:[],
                 secondList:[],
-                monthRotate:0,
-                dateRotate:0,
-                weekRotate:0,
-                oldHoursRotate:0,
-                hoursRotate:0,
-                minuteRotate:0,
-                secondRotate:0,
+                monthRotate:360,
+                dateRotate:360,
+                weekRotate:360,
+                oldHoursRotate:360,
+                hoursRotate:360,
+                minuteRotate:360,
+                secondRotate:360,
             },
             created: function (){
                this.initClock();
