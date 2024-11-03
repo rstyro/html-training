@@ -1,0 +1,83 @@
+.square {
+    /*width: 50px;*/
+    /*height: 50px;*/
+    position: absolute;
+    transform: translate(-50%, -50%) rotate(45deg);
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    -moz-transform: translate(-50%, -50%) rotate(45deg);
+    top: 50%;
+    left: 50%;
+    animation: rotate infinite linear 5s;
+    -webkit-animation: rotate infinite linear 5s;
+    -moz-animation: rotate infinite linear 5s;
+}
+
+.rect {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    border-bottom: none;
+}
+
+.inner_circle {
+    width: calc(50%);
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 1;
+}
+
+.dot {
+    width: 20%;
+    height: 20%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 50%;
+}
+
+.rect_one {
+    border-radius: 200px 200px 0 0;
+    background: white;
+}
+
+.rect_one_one {
+    bottom: -50%;
+    left: 0;
+    background: black;
+}
+
+.rect_one_two {
+    background: white;
+}
+
+.rect_two {
+    border-radius: 0 0 200px 200px;
+    background: black;
+}
+
+.rect_two_one {
+    bottom: 50%;
+    right: 0;
+    background: white;
+}
+
+.rect_two_two {
+    background: black;
+}
+
+@keyframes rotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+        -webkit-transform: translate(-50%, -50%) rotate(0deg);
+        -moz-transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+        -webkit-transform: translate(-50%, -50%) rotate(360deg);
+        -moz-transform: translate(-50%, -50%) rotate(360deg);
+    }
+}

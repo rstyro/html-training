@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>罗盘</title>
+
+    <link rel="stylesheet" href="taiji.css">
+    <style>
+        *, body {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            background: black url("stars.jpg") no-repeat center;
+            background-size: 100% auto;
+            position: relative; /* 使用相对定位，以便 .main 可以绝对定位 */
+            display: flex; /* 使用 Flexbox 布局 */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            box-sizing: border-box; /* 防止内边距和边框影响尺寸 */
+        }
+
+        .main {
+            width: 900px;
+            height: 900px;
+            color: #fff;
+            font-size: 18px;
+            overflow: hidden;
+            margin: 0; /* 移除默认的上下 margin */
+            position: relative; /* 保持相对定位 */
+        }
+
+        .center {
+            width: 50px;
+            height: 50px;
+        }
+
+        .level {
+            position: absolute;
+            transition: all 1s;
+            top: 50%;
+            left: 50%;
+            border: 1px solid #fff;
+            border-radius: 50%;
+        }
+
+        .bagua {
+            width: 110px;
+            height: 110px;
+        }
+
+        .bagua-symbol {
+            width: 170px;
+            height: 170px;
+        }
+
+        .mountain {
+            width: 230px;
+            height: 230px;
+        }
+
+        .mountain-item:nth-child(odd) {
+            /*color: red;*/
+            color: #fff;
+        }
+
+        .mountain-item:is(:nth-child(2), :nth-child(6), :nth-child(8), :nth-child(12)
+        , :nth-child(14), :nth-child(18), :nth-child(20), :nth-child(24)) {
+            /*color: blue;*/
+            color: #fff;
+        }
+
+        .direction {
+            width: 290px;
+            height: 290px;
+        }
+
+        .time_black {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            padding: 10px 0px;
+
+        }
+
+        .time_black span {
+            display: inline-block;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="app">
+    <div class="main">
+        <div class="center square">
+            <div class="rect rect_one">
+                <div class="inner_circle rect_one_one">
+                    <div class="dot rect_one_two"></div>
+                </div>
+            </div>
+            <div class="rect rect_two">
+                <div class="inner_circle rect_two_one">
+                    <div class="dot rect_two_two"></div>
+                </div>
+            </div>
+        </div>
+        <div class="bagua level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+baguaRotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of bagua"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+        </div>
+        <div class="bagua-symbol level"
+             v-bind:style="{transform:'translate(-50%, -50%) rotate('+baguaSymbolRotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of baguaSymbol"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+        </div>
+        <div class="mountain level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+mountainRotate+'deg)'}">
+            <div class="time_black mountain-item" v-for="(e,index) of mountain"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+        </div>
+        <div class="direction level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+directionRotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of direction"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="../vue/vue2.js"></script>
+<script>
+    window.onload = function () {
+        let vue = new Vue({
+            el: '#app',
+            data: {
+                year: "2022年",
+                bagua: [
+                    {
+                        content: "离"
+                    },
+                    {
+                        content: "坤"
+                    },
+                    {
+                        content: "兑"
+                    },
+                    {
+                        content: "乾"
+                    },
+                    {
+                        content: "坎"
+                    },
+                    {
+                        content: "艮"
+                    },
+                    {
+                        content: "震"
+                    },
+                    {
+                        content: "巽"
+                    }
+                ],
+                baguaSymbol: [
+                    {
+                        content: "☲"
+                    },
+                    {
+                        content: "☷"
+                    },
+                    {
+                        content: "☱"
+                    },
+                    {
+                        content: "☰"
+                    },
+                    {
+                        content: "☵"
+                    },
+                    {
+                        content: "☶"
+                    },
+                    {
+                        content: "☳"
+                    },
+                    {
+                        content: "☴"
+                    }
+                ],
+                mountain: [
+                    {
+                        content: "午"
+                    },
+                    {
+                        content: "丁"
+                    },
+                    {
+                        content: "未"
+                    },
+                    {
+                        content: "坤"
+                    },
+                    {
+                        content: "申"
+                    },
+                    {
+                        content: "庚"
+                    },
+                    {
+                        content: "酉"
+                    },
+                    {
+                        content: "辛"
+                    },
+                    {
+                        content: "戌"
+                    },
+                    {
+                        content: "乾"
+                    },
+                    {
+                        content: "亥"
+                    },
+                    {
+                        content: "壬"
+                    },
+                    {
+                        content: "子"
+                    },
+                    {
+                        content: "癸"
+                    },
+                    {
+                        content: "丑"
+                    },
+                    {
+                        content: "艮"
+                    },
+                    {
+                        content: "寅"
+                    },
+                    {
+                        content: "甲"
+                    },
+                    {
+                        content: "卯"
+                    },
+                    {
+                        content: "乙"
+                    },
+                    {
+                        content: "辰"
+                    },
+                    {
+                        content: "巽"
+                    },
+                    {
+                        content: "巳"
+                    },
+                    {
+                        content: "丙"
+                    }
+                ],
+                direction: [
+                    {
+                        content: "南"
+                    },
+                    {
+                        content: "西南"
+                    },
+                    {
+                        content: "西"
+                    },
+                    {
+                        content: "西北"
+                    },
+                    {
+                        content: "北"
+                    },
+                    {
+                        content: "东北"
+                    },
+                    {
+                        content: "东"
+                    },
+                    {
+                        content: "东南"
+                    }
+                ],
+                baguaRotate: -90,
+                baguaSymbolRotate: -90,
+                mountainRotate: -90,
+                directionRotate: -90
+            },
+            created: function () {
+                this.initClock();
+                // this.start();
+            },
+            methods: {
+                initClock: function () {
+                    // 初始化先天八卦
+                    this.initLocation(this.bagua, 360 / 8, 40);
+                    this.initLocation(this.baguaSymbol, 360 / 8, 70);
+                    this.initLocation(this.mountain, 360 / 24, 100);
+                    this.initLocation(this.direction, 360 / 8, 130);
+
+                },
+                // 初始化位置
+                initLocation: function (arr, deg, r) {
+                    for (let i = 0; i < arr.length; i++) {
+                        let rotateDeg = i * deg;
+                        let translateX = Math.cos(rotateDeg * (Math.PI / 180)) * r;
+                        let translateY = Math.sin(rotateDeg * (Math.PI / 180)) * r;
+                        arr[i].translateX = translateX;
+                        arr[i].translateY = translateY;
+                        arr[i].rotate = rotateDeg;
+                        arr[i].active = false;
+                    }
+                },
+                getRandomInt: function (min, max) {
+                    min = Math.ceil(min);
+                    max = Math.floor(max);
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                },
+                rotateClock: function () {
+                    this.baguaRotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.baguaSymbolRotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.mountainRotate = this.getRandomInt(1, 24) * (360 / 24);
+                    this.directionRotate = this.getRandomInt(1, 24) * (360 / 8);
+                },
+                start: function () {
+                    let task;
+                    clearInterval(task);
+                    let _this = this;
+                    task = setInterval(function () {
+                        _this.rotateClock();
+                    }, 1000);
+                }
+
+            }
+        })
+    }
+</script>
+</body>
+</html>
