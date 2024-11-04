@@ -15,6 +15,7 @@
             width: 100%;
             height: 100vh;
             background: black url("stars.jpg") no-repeat center;
+            /*background-color: #0a0a0a;*/
             background-size: 100% auto;
             position: relative; /* 使用相对定位，以便 .main 可以绝对定位 */
             display: flex; /* 使用 Flexbox 布局 */
@@ -27,7 +28,7 @@
             width: 900px;
             height: 900px;
             color: #fff;
-            font-size: 18px;
+            font-size: 14px;
             overflow: hidden;
             margin: 0; /* 移除默认的上下 margin */
             position: relative; /* 保持相对定位 */
@@ -62,15 +63,19 @@
             height: 230px;
         }
 
-        .floor3:nth-child(odd) {
-            /*color: red;*/
-            color: #fff;
+        .bold{
+            font-weight: bold;
         }
 
-        .floor3:is(:nth-child(2), :nth-child(6), :nth-child(8), :nth-child(12)
+        .mountain-item:nth-child(odd) {
+            color: red;
+            /*color: #fff;*/
+        }
+
+        .mountain-item:is(:nth-child(2), :nth-child(6), :nth-child(8), :nth-child(12)
         , :nth-child(14), :nth-child(18), :nth-child(20), :nth-child(24)) {
-            /*color: blue;*/
-            color: #fff;
+            color: blue;
+            /*color: #fff;*/
         }
 
         .floor4 {
@@ -120,6 +125,11 @@
             display: inline-block;
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
+        }
+
+        .time_black .vertical {
+            writing-mode: vertical-lr;
+            font-size: 10px;
         }
 
         .circle{
@@ -199,7 +209,7 @@
         </div>
         <div class="floor2 level"
              v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor2Rotate+'deg)'}">
-            <div class="time_black" v-for="(e,index) of floor2"
+            <div class="time_black bold" v-for="(e,index) of floor2"
                  :class="{'active': e.active}"
                  v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
                 <span v-text="e.content"></span></div>
@@ -301,6 +311,22 @@
                 <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles24.initAngle+'deg)', '-webkit-transition-duration': times}">
                     <div v-for="(item, index) in divideCircles24.number" class="other-item"
                          v-bind:style="{transform: 'rotate('+divideCircles24.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="floor9 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor9Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor9"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span class="vertical" v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles72.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles72.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles72.avgAngle*(index)+'deg)' }">
                     </div>
                 </div>
             </div>
@@ -742,6 +768,224 @@
                         content: "冬至"
                     }
                 ],
+                floor9: [
+                    {
+                        content: "甲午"
+                    },
+                    {
+                        content: "丙午"
+                    },
+                    {
+                        content: "戊午"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "辛未"
+                    },
+                    {
+                        content: "癸未"
+                    },
+                    {
+                        content: "乙未"
+                    },
+                    {
+                        content: "丁未"
+                    },
+                    {
+                        content: "己未"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "壬申"
+                    },
+                    {
+                        content: "甲申"
+                    },
+                    {
+                        content: "丙申"
+                    },
+                    {
+                        content: "戊申"
+                    },
+                    {
+                        content: "庚申"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "癸酉"
+                    },
+                    {
+                        content: "乙酉"
+                    },
+                    {
+                        content: "丁酉"
+                    },
+                    {
+                        content: "己酉"
+                    },
+                    {
+                        content: "辛酉"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "甲戌"
+                    },
+                    {
+                        content: "丙戌"
+                    },
+                    {
+                        content: "戊戌"
+                    },
+                    {
+                        content: "庚戌"
+                    },
+                    {
+                        content: "壬戌"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "乙亥"
+                    },
+                    {
+                        content: "丁亥"
+                    },
+                    {
+                        content: "己亥"
+                    },
+                    {
+                        content: "辛亥"
+                    },
+                    {
+                        content: "癸亥"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "甲子"
+                    },
+                    {
+                        content: "丙子"
+                    },
+                    {
+                        content: "戊子"
+                    },
+                    {
+                        content: "庚子"
+                    },
+                    {
+                        content: "壬子"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "乙丑"
+                    },
+                    {
+                        content: "丁丑"
+                    },
+                    {
+                        content: "己丑"
+                    },
+                    {
+                        content: "辛丑"
+                    },
+                    {
+                        content: "癸丑"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "丙寅"
+                    },
+                    {
+                        content: "戊寅"
+                    },
+                    {
+                        content: "庚寅"
+                    },
+                    {
+                        content: "壬寅"
+                    },
+                    {
+                        content: "甲寅"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "丁卯"
+                    },
+                    {
+                        content: "己卯"
+                    },
+                    {
+                        content: "辛卯"
+                    },
+                    {
+                        content: "癸卯"
+                    },
+                    {
+                        content: "乙卯"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "戊辰"
+                    },
+                    {
+                        content: "庚辰"
+                    },
+                    {
+                        content: "壬辰"
+                    },
+                    {
+                        content: "甲辰"
+                    },
+                    {
+                        content: "丙辰"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "己巳"
+                    },
+                    {
+                        content: "辛巳"
+                    },
+                    {
+                        content: "癸巳"
+                    },
+                    {
+                        content: "乙巳"
+                    },
+                    {
+                        content: "丁巳"
+                    },
+                    {
+                        content: ""
+                    },
+                    {
+                        content: "庚午"
+                    },
+                    {
+                        content: "壬午"
+                    }
+                ],
                 floor1Rotate: -90,
                 floor2Rotate: -90,
                 floor3Rotate: -90,
@@ -762,6 +1006,11 @@
                     initAngle: 7.5,
                     avgAngle: 360/24
                 },
+                divideCircles72:{
+                    number: 72,
+                    initAngle: 2.5,
+                    avgAngle: 360/72
+                },
                 times:'1.5s',
             },
             created: function () {
@@ -779,6 +1028,7 @@
                     this.initLocation(this.floor6, 360 / 24, 190);
                     this.initLocation(this.floor7, 360 / 24, 220);
                     this.initLocation(this.floor8, 360 / 24, 250);
+                    this.initLocation(this.floor9, 360 / 72, 280);
 
                 },
                 // 初始化位置
@@ -807,6 +1057,7 @@
                     this.floor6Rotate = this.getRandomInt(1, 24) * (360 / 8);
                     this.floor7Rotate = this.getRandomInt(1, 24) * (360 / 8);
                     this.floor8Rotate = (this.getRandomInt(1, 24) * (360 / 8))+7.5;
+                    this.floor9Rotate = (this.getRandomInt(1, 24) * (360 / 8))+2.5;
                 },
                 start: function () {
                     let task;
@@ -814,7 +1065,7 @@
                     let _this = this;
                     task = setInterval(function () {
                         _this.rotateClock();
-                    }, 1500);
+                    }, 3500);
                 }
 
             }
