@@ -47,35 +47,62 @@
             border-radius: 50%;
         }
 
-        .bagua {
+        .floor1 {
             width: 110px;
             height: 110px;
         }
 
-        .bagua-symbol {
+        .floor2 {
             width: 170px;
             height: 170px;
         }
 
-        .mountain {
+        .floor3 {
             width: 230px;
             height: 230px;
         }
 
-        .mountain-item:nth-child(odd) {
+        .floor3:nth-child(odd) {
             /*color: red;*/
             color: #fff;
         }
 
-        .mountain-item:is(:nth-child(2), :nth-child(6), :nth-child(8), :nth-child(12)
+        .floor3:is(:nth-child(2), :nth-child(6), :nth-child(8), :nth-child(12)
         , :nth-child(14), :nth-child(18), :nth-child(20), :nth-child(24)) {
             /*color: blue;*/
             color: #fff;
         }
 
-        .direction {
+        .floor4 {
             width: 290px;
             height: 290px;
+        }
+
+        .floor5 {
+            width: 350px;
+            height: 350px;
+        }
+
+        .floor6 {
+            width: 410px;
+            height: 410px;
+        }
+
+        .floor7 {
+            width: 470px;
+            height: 470px;
+        }
+        .floor8 {
+            width: 530px;
+            height: 530px;
+        }
+        .floor9 {
+            width: 590px;
+            height: 590px;
+        }
+        .floor10 {
+            width: 650px;
+            height: 650px;
         }
 
         .time_black {
@@ -154,69 +181,131 @@
                 </div>
             </div>
         </div>
-        <div class="bagua level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+baguaRotate+'deg)'}">
-            <div class="time_black" v-for="(e,index) of bagua"
+        <div class="floor1 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor1Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor1"
                  :class="{'active': e.active}"
                  v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
                 <span v-text="e.content"></span></div>
 
+            <!-- 这个是为了画圆的等分边框 -->
             <div class="circle">
-                <div class="position-box" v-bind:style="{transform:'rotate('+baguaCircles.initAngle+'deg)', '-webkit-transition-duration': times}">
-                    <div v-for="(item, index) in baguaCircles.number" class="other-item"
-                         v-bind:style="{transform: 'rotate('+baguaCircles.avgAngle*(index)+'deg)' }">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles8.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles8.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles8.avgAngle*(index)+'deg)' }">
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="bagua-symbol level"
-             v-bind:style="{transform:'translate(-50%, -50%) rotate('+baguaSymbolRotate+'deg)'}">
-            <div class="time_black" v-for="(e,index) of baguaSymbol"
+        <div class="floor2 level"
+             v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor2Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor2"
                  :class="{'active': e.active}"
                  v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
                 <span v-text="e.content"></span></div>
 
             <div class="circle">
-                <div class="position-box" v-bind:style="{transform:'rotate('+baguaSymbolCircles.initAngle+'deg)', '-webkit-transition-duration': times}">
-                    <div v-for="(item, index) in baguaSymbolCircles.number" class="other-item"
-                         v-bind:style="{transform: 'rotate('+baguaSymbolCircles.avgAngle*(index)+'deg)' }">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="mountain level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+mountainRotate+'deg)'}">
-            <div class="time_black mountain-item" v-for="(e,index) of mountain"
-                 :class="{'active': e.active}"
-                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
-                <span v-text="e.content"></span></div>
-
-            <div class="circle">
-                <div class="position-box" v-bind:style="{transform:'rotate('+mountainCircles.initAngle+'deg)', '-webkit-transition-duration': times}">
-                    <div v-for="(item, index) in mountainCircles.number" class="other-item"
-                         v-bind:style="{transform: 'rotate('+mountainCircles.avgAngle*(index)+'deg)' }">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles8.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles8.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles8.avgAngle*(index)+'deg)' }">
                     </div>
                 </div>
             </div>
 
         </div>
 
-
-        <div class="direction level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+directionRotate+'deg)'}">
-            <div class="time_black" v-for="(e,index) of direction"
+        <div class="floor3 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor3Rotate+'deg)'}">
+            <div class="time_black mountain-item" v-for="(e,index) of floor3"
                  :class="{'active': e.active}"
                  v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
                 <span v-text="e.content"></span></div>
 
             <div class="circle">
-                <div class="position-box" v-bind:style="{transform:'rotate('+directionCircles.initAngle+'deg)', '-webkit-transition-duration': times}">
-                    <div v-for="(item, index) in directionCircles.number" class="other-item"
-                         v-bind:style="{transform: 'rotate('+directionCircles.avgAngle*(index)+'deg)' }">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles24.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles24.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles24.avgAngle*(index)+'deg)' }">
                     </div>
                 </div>
             </div>
 
         </div>
+
+        <div class="floor4 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor4Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor4"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles8.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles8.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles8.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="floor5 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor5Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor5"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles24.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles24.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles24.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="floor6 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor6Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor6"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles24.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles24.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles24.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="floor7 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor7Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor7"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles24.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles24.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles24.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="floor8 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor8Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor8"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles24.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles24.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles24.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </div>
@@ -228,7 +317,7 @@
         let vue = new Vue({
             el: '#app',
             data: {
-                bagua: [
+                floor1: [
                     {
                         content: "离"
                     },
@@ -254,7 +343,7 @@
                         content: "巽"
                     }
                 ],
-                baguaSymbol: [
+                floor2: [
                     {
                         content: "☲"
                     },
@@ -280,7 +369,7 @@
                         content: "☴"
                     }
                 ],
-                mountain: [
+                floor3: [
                     {
                         content: "午"
                     },
@@ -354,7 +443,7 @@
                         content: "丙"
                     }
                 ],
-                direction: [
+                floor4: [
                     {
                         content: "南"
                     },
@@ -380,29 +469,298 @@
                         content: "东南"
                     }
                 ],
-                baguaRotate: -90,
-                baguaSymbolRotate: -90,
-                mountainRotate: -90,
-                directionRotate: -90,
-                baguaCircles:{
+                floor5:[
+                    {
+                        content: ""
+                    },{
+                        content: "坤"
+                    },{
+                        content: ""
+                    },{
+                        content: "庚丁"
+                    },{
+                        content: ""
+                    },{
+                        content: "坤"
+                    },{
+                        content: ""
+                    },{
+                        content: "乾"
+                    },{
+                        content: ""
+                    },{
+                        content: "壬辛"
+                    },{
+                        content: ""
+                    },{
+                        content: "乾"
+                    },{
+                        content: ""
+                    },{
+                        content: "艮"
+                    },{
+                        content: ""
+                    },{
+                        content: "甲癸"
+                    },{
+                        content: ""
+                    },{
+                        content: "艮"
+                    },{
+                        content: ""
+                    },{
+                        content: "巽"
+                    },{
+                        content: ""
+                    },{
+                        content: "丙乙"
+                    },{
+                        content: ""
+                    },{
+                        content: "巽"
+                    }
+                ],
+                floor6: [
+                    {
+                        content: "文"
+                    },
+                    {
+                        content: "武"
+                    },
+                    {
+                        content: "贞"
+                    },
+                    {
+                        content: "辅"
+                    },
+                    {
+                        content: "破"
+                    },
+                    {
+                        content: "贞"
+                    },
+                    {
+                        content: "武"
+                    },
+                    {
+                        content: "巨"
+                    },
+                    {
+                        content: "文"
+                    },
+                    {
+                        content: "禄"
+                    },
+                    {
+                        content: "贞"
+                    },
+                    {
+                        content: "文"
+                    },
+                    {
+                        content: "破"
+                    },
+                    {
+                        content: "破"
+                    },
+                    {
+                        content: "武"
+                    },
+                    {
+                        content: "贪"
+                    },
+                    {
+                        content: "文"
+                    },
+                    {
+                        content: "禄"
+                    },
+                    {
+                        content: "贞"
+                    },
+                    {
+                        content: "辅"
+                    },
+                    {
+                        content: "破"
+                    },
+                    {
+                        content: "巨"
+                    },
+                    {
+                        content: "武"
+                    },
+                    {
+                        content: "贪"
+                    }
+                ],
+                floor7: [
+                    {
+                        content: "天马"
+                    },
+                    {
+                        content: "南极"
+                    },
+                    {
+                        content: "天常"
+                    },
+                    {
+                        content: "天钱"
+                    },
+                    {
+                        content: "天关"
+                    },
+                    {
+                        content: "天汉"
+                    },
+                    {
+                        content: "少微"
+                    },
+                    {
+                        content: "天乙"
+                    },
+                    {
+                        content: "天魁"
+                    },
+                    {
+                        content: "天厩"
+                    },
+                    {
+                        content: "天皇"
+                    },
+                    {
+                        content: "天辅"
+                    },
+                    {
+                        content: "阳光"
+                    },
+                    {
+                        content: "北道"
+                    },
+                    {
+                        content: "天厨"
+                    },
+                    {
+                        content: "天市"
+                    },
+                    {
+                        content: "天培"
+                    },
+                    {
+                        content: "天苑"
+                    },
+                    {
+                        content: "天命"
+                    },
+                    {
+                        content: "天官"
+                    },
+                    {
+                        content: "天罡"
+                    },
+                    {
+                        content: "太乙"
+                    },
+                    {
+                        content: "天屏"
+                    },
+                    {
+                        content: "太微"
+                    }
+                ],
+                floor8: [
+                    {
+                        content: "小寒"
+                    },
+                    {
+                        content: "大寒"
+                    },
+                    {
+                        content: "立春"
+                    },
+                    {
+                        content: "雨水"
+                    },
+                    {
+                        content: "惊蛰"
+                    },
+                    {
+                        content: "春分"
+                    },
+                    {
+                        content: "清明"
+                    },
+                    {
+                        content: "谷雨"
+                    },
+                    {
+                        content: "立夏"
+                    },
+                    {
+                        content: "小满"
+                    },
+                    {
+                        content: "芒种"
+                    },
+                    {
+                        content: "夏至"
+                    },
+                    {
+                        content: "小暑"
+                    },
+                    {
+                        content: "大暑"
+                    },
+                    {
+                        content: "立秋"
+                    },
+                    {
+                        content: "处暑"
+                    },
+                    {
+                        content: "白露"
+                    },
+                    {
+                        content: "秋分"
+                    },
+                    {
+                        content: "寒露"
+                    },
+                    {
+                        content: "霜降"
+                    },
+                    {
+                        content: "立冬"
+                    },
+                    {
+                        content: "小雪"
+                    },
+                    {
+                        content: "大雪"
+                    },
+                    {
+                        content: "冬至"
+                    }
+                ],
+                floor1Rotate: -90,
+                floor2Rotate: -90,
+                floor3Rotate: -90,
+                floor4Rotate: -90,
+                floor5Rotate: -90,
+                floor6Rotate: -90,
+                floor7Rotate: -90,
+                floor8Rotate: 82.5,
+                floor9Rotate: -90,
+                floor10Rotate: -90,
+                divideCircles8:{
                     number: 8,
                     initAngle: 22.5,
                     avgAngle: 360/8
                 },
-                baguaSymbolCircles:{
-                    number: 8,
-                    initAngle: 22.5,
-                    avgAngle: 360/8
-                },
-                mountainCircles:{
+                divideCircles24:{
                     number: 24,
-                    initAngle: 22.5,
+                    initAngle: 7.5,
                     avgAngle: 360/24
-                },
-                directionCircles:{
-                    number: 8,
-                    initAngle: 22.5,
-                    avgAngle: 45
                 },
                 times:'1.5s',
             },
@@ -413,10 +771,14 @@
             methods: {
                 initClock: function () {
                     // 初始化先天八卦
-                    this.initLocation(this.bagua, 360 / 8, 40);
-                    this.initLocation(this.baguaSymbol, 360 / 8, 70);
-                    this.initLocation(this.mountain, 360 / 24, 100);
-                    this.initLocation(this.direction, 360 / 8, 130);
+                    this.initLocation(this.floor1, 360 / 8, 40);
+                    this.initLocation(this.floor2, 360 / 8, 70);
+                    this.initLocation(this.floor3, 360 / 24, 100);
+                    this.initLocation(this.floor4, 360 / 8, 130);
+                    this.initLocation(this.floor5, 360 / 24, 160);
+                    this.initLocation(this.floor6, 360 / 24, 190);
+                    this.initLocation(this.floor7, 360 / 24, 220);
+                    this.initLocation(this.floor8, 360 / 24, 250);
 
                 },
                 // 初始化位置
@@ -437,10 +799,14 @@
                     return Math.floor(Math.random() * (max - min + 1)) + min;
                 },
                 rotateClock: function () {
-                    this.baguaRotate = this.getRandomInt(1, 24) * (360 / 8);
-                    this.baguaSymbolRotate = this.getRandomInt(1, 24) * (360 / 8);
-                    this.mountainRotate = this.getRandomInt(1, 24) * (360 / 24);
-                    this.directionRotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor1Rotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor2Rotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor3Rotate = this.getRandomInt(1, 24) * (360 / 24);
+                    this.floor4Rotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor5Rotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor6Rotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor7Rotate = this.getRandomInt(1, 24) * (360 / 8);
+                    this.floor8Rotate = (this.getRandomInt(1, 24) * (360 / 8))+7.5;
                 },
                 start: function () {
                     let task;
