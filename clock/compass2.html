@@ -11,10 +11,15 @@
             padding: 0px;
         }
 
+        #space{
+            z-index: -1;
+            position: absolute;
+        }
+
         .container {
             width: 100%;
             height: 100vh;
-            background: black url("stars.jpg") no-repeat center;
+            /*background: black url("stars.jpg") no-repeat center;*/
             /*background-color: #0a0a0a;*/
             background-size: 100% auto;
             position: relative; /* 使用相对定位，以便 .main 可以绝对定位 */
@@ -32,6 +37,7 @@
             overflow: hidden;
             margin: 0; /* 移除默认的上下 margin */
             position: relative; /* 保持相对定位 */
+            /*font-weight: bold;*/
         }
 
         .center {
@@ -41,7 +47,7 @@
 
         .level {
             position: absolute;
-            transition: all 1s;
+            transition: all 3s;
             top: 50%;
             left: 50%;
             border: 1px solid #fff;
@@ -110,6 +116,21 @@
             height: 650px;
         }
 
+        .floor11 {
+            width: 750px;
+            height: 750px;
+        }
+
+        .floor12 {
+            width: 810px;
+            height: 810px;
+        }
+
+        .floor99 {
+            width: 830px;
+            height: 830px;
+        }
+
         .time_black {
             position: absolute;
             width: 40px;
@@ -120,8 +141,14 @@
             padding: 10px 0px;
 
         }
+        .time_black2{
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+        }
 
-        .time_black span {
+        .time_black span,.time_black2 span {
             display: inline-block;
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
@@ -131,6 +158,12 @@
             writing-mode: vertical-lr;
             font-size: 10px;
         }
+        .time_black2 .vertical {
+            writing-mode: vertical-lr;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
 
         .circle{
             position: absolute;
@@ -173,9 +206,20 @@
             overflow: hidden;
         }
 
+        /* 只要部分边框 */
+        .other-item2::before {
+            top: calc(100% - 50px) !important;
+        }
+
+        /* 只要部分边框 */
+        .other-item-last::before {
+            top: calc(100% - 10px) !important;
+        }
+
     </style>
 </head>
 <body>
+<canvas id="space"></canvas>
 
 <div class="container" id="app">
     <div class="main">
@@ -332,13 +376,80 @@
             </div>
         </div>
 
+        <div class="floor10 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor10Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor10"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span class="vertical" v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles120.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles120.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles120.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="floor11 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor11Rotate+'deg)'}">
+            <div class="time_black2" v-for="(e,index) of floor11"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span class="vertical" v-text="e.content"></span>
+            </div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles60.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles60.number" class="other-item other-item2"
+                         v-bind:style="{transform: 'rotate('+divideCircles60.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="floor12 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor12Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor12"
+                 :class="{'active': e.active}"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate('+divideCircles60.initAngle+'deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in divideCircles60.number" class="other-item"
+                         v-bind:style="{transform: 'rotate('+divideCircles60.avgAngle*(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="floor99 level" v-bind:style="{transform:'translate(-50%, -50%) rotate('+floor99Rotate+'deg)'}">
+            <div class="time_black" v-for="(e,index) of floor99"
+                 v-bind:style="{transform: 'translate(-50%, -50%) translateX('+e.translateX+'px) translateY('+e.translateY+'px) rotate('+e.rotate+'deg)'}">
+                <span v-text="e.content"></span></div>
+
+            <div class="circle">
+                <div class="position-box" v-bind:style="{transform:'rotate(1deg)', '-webkit-transition-duration': times}">
+                    <div v-for="(item, index) in 360" class="other-item other-item-last"
+                         v-bind:style="{transform: 'rotate('+(index)+'deg)' }">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
 
     </div>
 </div>
 
 
 <script src="../vue/vue2.js"></script>
+<script src="bg.js"></script>
 <script>
+    initializeStars();
+    executeFrame();
     window.onload = function () {
         let vue = new Vue({
             el: '#app',
@@ -986,6 +1097,132 @@
                         content: "壬午"
                     }
                 ],
+                floor10:[{"content":""},{"content":"丙寅"},{"content":""},{"content":"庚寅"},{"content":""},{"content":""},{"content":"丁卯"},{"content":""},{"content":"辛卯"},{"content":""},{"content":""},{"content":"丁卯"},{"content":""},{"content":"辛卯"},{"content":""},{"content":""},{"content":"丙辰"},{"content":""},{"content":"庚辰"},{"content":""},{"content":""},{"content":"丙辰"},{"content":""},{"content":"庚辰"},{"content":""},{"content":""},{"content":"丁巳"},{"content":""},{"content":"辛巳"},{"content":""},{"content":""},{"content":"丁巳"},{"content":""},{"content":"辛巳"},{"content":""},{"content":""},{"content":"丙午"},{"content":""},{"content":"庚午"},{"content":""},{"content":""},{"content":"丙午"},{"content":""},{"content":"庚午"},{"content":""},{"content":""},{"content":"丁未"},{"content":""},{"content":"辛未"},{"content":""},{"content":""},{"content":"丁未"},{"content":""},{"content":"辛未"},{"content":""},{"content":""},{"content":"丙申"},{"content":""},{"content":"庚申"},{"content":""},{"content":""},{"content":"丙申"},{"content":""},{"content":"庚申"},{"content":""},{"content":""},{"content":"丁酉"},{"content":""},{"content":"丁酉"},{"content":""},{"content":""},{"content":"丁酉"},{"content":""},{"content":"丁酉"},{"content":""},{"content":""},{"content":"丙戌"},{"content":""},{"content":"丙戌"},{"content":""},{"content":""},{"content":"丙戌"},{"content":""},{"content":"丙戌"},{"content":""},{"content":""},{"content":"丁亥"},{"content":""},{"content":"辛亥"},{"content":""},{"content":""},{"content":"丁亥"},{"content":""},{"content":"辛亥"},{"content":""},{"content":""},{"content":"丙子"},{"content":""},{"content":"庚子"},{"content":""},{"content":""},{"content":"丙子"},{"content":""},{"content":"庚子"},{"content":""},{"content":""},{"content":"丁丑"},{"content":""},{"content":"辛丑"},{"content":""},{"content":""},{"content":"丁丑"},{"content":""},{"content":"辛丑"},{"content":""},{"content":""},{"content":"丙寅"},{"content":""},{"content":"庚寅"},{"content":""}],
+                floor11:[
+                    {content:"甲子 七三"},
+                    {content:"丙子 正"},
+                    {content:"戊子 五"},
+                    {content:"庚子 正"},
+                    {content:"壬子 七三"},
+                    {content:"乙丑 三七"},
+                    {content:"丁丑 正"},
+                    {content:"己丑 五"},
+                    {content:"辛丑 正"},
+                    {content:"癸丑 七三"},
+                    {content:"丙寅 三七"},
+                    {content:"戊寅 正"},
+                    {content:"庚寅 五"},
+                    {content:"壬寅 正"},
+                    {content:"甲寅 三七"},
+                    {content:"丁卯 七三"},
+                    {content:"己卯 正"},
+                    {content:"辛卯 五"},
+                    {content:"癸卯 正"},
+                    {content:"乙卯 三七"},
+                    {content:"戊辰 七三"},
+                    {content:"庚辰 正"},
+                    {content:"壬辰 五"},
+                    {content:"甲辰 正"},
+                    {content:"丙辰 三七"},
+                    {content:"己巳 七三"},
+                    {content:"辛巳 正"},
+                    {content:"癸巳 五"},
+                    {content:"乙巳 正"},
+                    {content:"丁巳 三七"},
+                    {content:"庚午 七三"},
+                    {content:"壬午 正"},
+                    {content:"甲午 五"},
+                    {content:"丙午 正"},
+                    {content:"戊午 三七"},
+                    {content:"辛未 七三"},
+                    {content:"癸未 正"},
+                    {content:"乙未 五"},
+                    {content:"丁未 正"},
+                    {content:"己未 三七"},
+                    {content:"壬申 七三"},
+                    {content:"甲申 正"},
+                    {content:"丙申 五"},
+                    {content:"戊申 正"},
+                    {content:"庚申 三七"},
+                    {content:"癸酉 七三"},
+                    {content:"乙酉 正"},
+                    {content:"丁酉 五"},
+                    {content:"己酉 正"},
+                    {content:"辛酉 三七"},
+                    {content:"甲戌 七三"},
+                    {content:"丙戌 正"},
+                    {content:"戊戌 五"},
+                    {content:"庚戌 正"},
+                    {content:"壬戌 三七"},
+                    {content:"乙亥 七三"},
+                    {content:"丁亥 正"},
+                    {content:"己亥 五"},
+                    {content:"辛亥 正"},
+                    {content:"癸亥 三七"}
+                ],
+                floor12:[
+                    {content:"金"},
+                    {content:"火"},
+                    {content:"水"},
+                    {content:"金"},
+                    {content:"木"},
+                    {content:"土"},
+                    {content:"水"},
+                    {content:"金"},
+                    {content:"木"},
+                    {content:"土"},
+                    {content:"火"},
+                    {content:"木"},
+                    {content:"金"},
+                    {content:"水"},
+                    {content:"土"},
+                    {content:"木"},
+                    {content:"金"},
+                    {content:"水"},
+                    {content:"土"},
+                    {content:"木"},
+                    {content:"火"},
+                    {content:"水"},
+                    {content:"土"},
+                    {content:"木"},
+                    {content:"火"},
+                    {content:"金"},
+                    {content:"木"},
+                    {content:"土"},
+                    {content:"火"},
+                    {content:"金"},
+                    {content:"水"},
+                    {content:"土"},
+                    {content:"木"},
+                    {content:"火"},
+                    {content:"水"},
+                    {content:"金"},
+                    {content:"土"},
+                    {content:"水"},
+                    {content:"火"},
+                    {content:"金"},
+                    {content:"木"},
+                    {content:"火"},
+                    {content:"水"},
+                    {content:"金"},
+                    {content:"木"},
+                    {content:"土"},
+                    {content:"水"},
+                    {content:"火"},
+                    {content:"木"},
+                    {content:"土"},
+                    {content:"金"},
+                    {content:"土"},
+                    {content:"水"},
+                    {content:"金"},
+                    {content:"火"},
+                    {content:"木"},
+                    {content:"火"},
+                    {content:"土"},
+                    {content:"水"},
+                    {content:"木"}
+                ],
+                floor99:[],
                 floor1Rotate: -90,
                 floor2Rotate: -90,
                 floor3Rotate: -90,
@@ -996,6 +1233,9 @@
                 floor8Rotate: 82.5,
                 floor9Rotate: -90,
                 floor10Rotate: -90,
+                floor11Rotate: -90,
+                floor12Rotate: -90,
+                floor99Rotate: -90,
                 divideCircles8:{
                     number: 8,
                     initAngle: 22.5,
@@ -1006,10 +1246,20 @@
                     initAngle: 7.5,
                     avgAngle: 360/24
                 },
+                divideCircles60:{
+                    number: 60,
+                    initAngle: 3,
+                    avgAngle: 6
+                },
                 divideCircles72:{
                     number: 72,
                     initAngle: 2.5,
                     avgAngle: 360/72
+                },
+                divideCircles120:{
+                    number: 120,
+                    initAngle: 1.5,
+                    avgAngle: 360/120
                 },
                 times:'1.5s',
             },
@@ -1029,6 +1279,11 @@
                     this.initLocation(this.floor7, 360 / 24, 220);
                     this.initLocation(this.floor8, 360 / 24, 250);
                     this.initLocation(this.floor9, 360 / 72, 280);
+                    this.initLocation(this.floor10, 360 / 120, 310);
+                    this.initLocation(this.floor11, 360 / 60, 350);
+                    this.initLocation(this.floor12, 360 / 60, 390);
+
+                    this.initLocation(this.floor99, 1, 430);
 
                 },
                 // 初始化位置
@@ -1053,11 +1308,14 @@
                     this.floor2Rotate = this.getRandomInt(1, 24) * (360 / 8);
                     this.floor3Rotate = this.getRandomInt(1, 24) * (360 / 24);
                     this.floor4Rotate = this.getRandomInt(1, 24) * (360 / 8);
-                    this.floor5Rotate = this.getRandomInt(1, 24) * (360 / 8);
-                    this.floor6Rotate = this.getRandomInt(1, 24) * (360 / 8);
-                    this.floor7Rotate = this.getRandomInt(1, 24) * (360 / 8);
-                    this.floor8Rotate = (this.getRandomInt(1, 24) * (360 / 8))+7.5;
-                    this.floor9Rotate = (this.getRandomInt(1, 24) * (360 / 8))+2.5;
+                    this.floor5Rotate = this.getRandomInt(1, 24) * (360 / 24);
+                    this.floor6Rotate = this.getRandomInt(1, 24) * (360 / 24);
+                    this.floor7Rotate = this.getRandomInt(1, 24) * (360 / 24);
+                    this.floor8Rotate = (this.getRandomInt(1, 24) * (360 / 24))+7.5;
+                    this.floor9Rotate = (this.getRandomInt(1, 24) * (360 / 72))+2.5;
+                    this.floor10Rotate = (this.getRandomInt(1, 24) * (360 / 120))+1.5;
+                    this.floor11Rotate = (this.getRandomInt(1, 24) * (360 / 60))+30;
+                    this.floor12Rotate = (this.getRandomInt(1, 24) * (360 / 60))+30;
                 },
                 start: function () {
                     let task;
@@ -1065,7 +1323,7 @@
                     let _this = this;
                     task = setInterval(function () {
                         _this.rotateClock();
-                    }, 3500);
+                    }, 3000);
                 }
 
             }
